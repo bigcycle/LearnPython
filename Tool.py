@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import re
+import time
+import HTMLParser
 
 
 class Tool:
@@ -15,7 +17,7 @@ class Tool:
     removeExtraTag = re.compile('<.*?>')
 
     def __init__(self):
-        pass
+        self.html_parser = HTMLParser.HTMLParser()
 
     def replace(self, x):
         x = re.sub(self.removeImg, "", x)
@@ -26,4 +28,12 @@ class Tool:
         x = re.sub(self.replaceBR, "\n", x)
         x = re.sub(self.replaceAmp, "&", x)
         x = re.sub(self.removeExtraTag, "", x)
+        x = self.html_parser.unescape(x)
         return x.strip()
+
+    def getCurrentTime(self):
+        return time.strftime('[%Y-%m-%d %H:%M:%S]',
+                             time.localtime(time.time()))
+
+    def getCurrentDate(self):
+        return time.strftime('%Y-%m-%d', time.localtime(time.time()))
