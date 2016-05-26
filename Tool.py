@@ -3,6 +3,7 @@
 import re
 import time
 import HTMLParser
+import sys
 
 
 class Tool:
@@ -37,3 +38,19 @@ class Tool:
 
     def getCurrentDate(self):
         return time.strftime('%Y-%m-%d', time.localtime(time.time()))
+
+    def log(file):
+        def decorator(func):
+            def wrapper(*args, **kw):
+                f_handler = open(file, 'a')
+                sys.stdout = f_handler
+                func(*args, **kw)
+                f_handler.close()
+            return wrapper
+        return decorator
+
+    @log('out.log')
+    def printf(self, *arg):
+        print self.getCurrentTime(),
+        for n in arg:
+            print n,
